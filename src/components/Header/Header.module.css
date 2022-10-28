@@ -7,6 +7,7 @@ header {
   padding: 10px 0;
   border-bottom: 1px solid rgb(170, 170, 170);
   box-shadow: 0 4px 4px rgba(150, 150, 150, 0.4);
+  background-color: rgb(219, 220, 223);
 }
 
 .currency {

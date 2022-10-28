@@ -22,7 +22,11 @@ export const App = () => {
         data={data}
       />
       <main>
-        <ExchangeForm />
+        <ExchangeForm
+          actualCurrencies={actualCurrencies}
+          baseCurrency={baseCurrency}
+          data={data}
+        />
       </main>
     </>
   );
