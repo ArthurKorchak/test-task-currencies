@@ -79,7 +79,7 @@ export const ExchangeForm = ({ actualCurrencies, baseCurrency, data }) => {
     <div>
       <form>
         <div className={s.halfOfForm}>
-          <p>From</p>
+          <p className={s.title}>From</p>
           <div>
             <select name="select1" onChange={handleSelect} value={firstSelect}>
               <option value={baseCurrency}>{baseCurrency}</option>
@@ -104,7 +104,7 @@ export const ExchangeForm = ({ actualCurrencies, baseCurrency, data }) => {
           <span className={s.arrow}>🢂</span>
         </p>
         <div className={s.halfOfForm}>
-          <p>To</p>
+          <p className={s.title}>To</p>
           <div>
             <select name="select2" onChange={handleSelect} value={secondSelect}>
               <option value={baseCurrency}>{baseCurrency}</option>
@@ -126,7 +126,7 @@ export const ExchangeForm = ({ actualCurrencies, baseCurrency, data }) => {
           </div>
         </div>
         <a href="https://privatbank.ua/map" target="_blank" rel="noreferrer">
-          Convert
+          Where to buy
         </a>
       </form>
     </div>
