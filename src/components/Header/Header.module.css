@@ -35,3 +35,18 @@ header {
   border: 1px solid rgb(33, 150, 243);
   border-radius: 8px;
 }
+
+@media screen and (max-width: 820px) {
+
+  header {
+    flex-direction: column;
+    gap: 25px;
+  }
+
+  .currenciesBox {
+    display: flex;
+    flex-direction: row;
+    gap: 25px;
+  }
+
+}

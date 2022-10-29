@@ -16,6 +16,7 @@ select {
   border: 1px solid rgb(33, 150, 243);
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;
+  background-color: rgb(255, 255, 255);;
 }
 
 select:focus {
@@ -80,4 +81,14 @@ a:hover, a:focus {
 
 .arrow {
   cursor: default;
+}
+
+@media screen and (max-width: 820px) {
+
+  form {
+    flex-direction: column;
+    gap: 20px;
+    padding: 30px 0 0 0;
+  }
+
 }
