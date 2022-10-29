@@ -7,6 +7,11 @@ form {
   padding: 50px 0 0 0;
 }
 
+.inputWrapper {
+  display: flex;
+  align-items: center;
+}
+
 select {
   height: 30px;
   font-size: 14px;
@@ -16,7 +21,7 @@ select {
   border: 1px solid rgb(33, 150, 243);
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;
-  background-color: rgb(255, 255, 255);;
+  background-color: rgb(255, 255, 255);
 }
 
 select:focus {

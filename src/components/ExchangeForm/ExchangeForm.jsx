@@ -80,7 +80,7 @@ export const ExchangeForm = ({ actualCurrencies, baseCurrency, data }) => {
       <form>
         <div className={s.halfOfForm}>
           <p className={s.title}>From</p>
-          <div>
+          <div className={s.inputWrapper}>
             <select name="select1" onChange={handleSelect} value={firstSelect}>
               <option value={baseCurrency}>{baseCurrency}</option>
               {actualCurrencies.map(currency => {
@@ -101,7 +101,7 @@ export const ExchangeForm = ({ actualCurrencies, baseCurrency, data }) => {
           </div>
         </div>
         <p className={s.arrowBox}>
-          <span className={s.arrow}>🢂</span>
+          <span className={s.arrow}>➤</span>
         </p>
         <div className={s.halfOfForm}>
           <p className={s.title}>To</p>

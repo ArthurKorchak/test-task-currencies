@@ -45,8 +45,13 @@ header {
 
   .currenciesBox {
     display: flex;
-    flex-direction: row;
     gap: 25px;
+  }
+
+  .currency {
+    flex-direction: column;
+    min-width: 120px;
+    gap: 10px;
   }
 
 }
