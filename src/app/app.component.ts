@@ -1,13 +1,23 @@
 import { Component } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
   template: `
-    <!--The content below is only a placeholder and can be replaced.-->
-        
+    <app-header *ngIf="response" [response]="response"></app-header>    
   `,
   styles: []
 })
 export class AppComponent {
-  title = 'test-task-currencies';
-}
+
+  response: any;
+
+  constructor(private http: HttpClient) {
+
+    this.http.get('https://api.privatbank.ua/p24api/pubinfo?json&exchange&coursid=5')
+      .subscribe(resp => {
+        console.log(resp);
+        this.response = resp;
+    });
+  };
+};
