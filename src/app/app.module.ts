@@ -7,6 +7,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { CurrenciesComponent } from './components/currencies/currencies.component';
 import { LogoComponent } from './components/shared/logo/logo.component';
 import { CurrencyStatsComponent } from './components/shared/currency-stats/currency-stats.component';
+import { ExchangeComponent } from './components/exchange/exchange.component';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import { CurrencyStatsComponent } from './components/shared/currency-stats/curre
     HeaderComponent,
     CurrenciesComponent,
     LogoComponent,
-    CurrencyStatsComponent
+    CurrencyStatsComponent,
+    ExchangeComponent
   ],
   imports: [
     BrowserModule,

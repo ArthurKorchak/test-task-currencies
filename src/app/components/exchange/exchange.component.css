@@ -1,0 +1,101 @@
+form {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 50px 0 0 0;
+}
+
+.input-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+select {
+  height: 30px;
+  font-size: 14px;
+  cursor: pointer;
+  color: rgb(33, 150, 243);
+  font-weight: 600;
+  border: 1px solid rgb(33, 150, 243);
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  background-color: rgb(255, 255, 255);
+}
+
+select:focus {
+  outline: none;
+}
+
+input {
+  height: 26px;
+  padding-left: 8px;
+  font-size: 16px;
+  color: rgb(59, 59, 59);
+  border: 1px solid rgb(33, 150, 243);
+  border-left: none;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+input:focus {
+  outline: none;
+}
+
+.half-of-form {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgb(33, 150, 243);
+  border-radius: 8px;
+  padding: 15px;
+  gap: 8px;
+}
+
+.arrow-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  color: rgb(33, 150, 243);
+  border: 1px solid rgb(33, 150, 243);
+  border-radius: 18px;
+}
+
+a {
+  text-align: center;
+  cursor: pointer;
+  padding: 8px 10px;
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: 500;
+  cursor: pointer;
+  color: rgb(255, 255, 255);
+  background-color: rgb(33, 150, 243);
+  border-radius: 8px;
+}
+
+a:hover,
+a:focus {
+  background-color: rgb(42, 138, 216);
+}
+
+.title {
+  font-size: 18px;
+}
+
+.arrow {
+  cursor: default;
+  padding: 0 0 2px 2px;
+}
+
+@media screen and (max-width: 820px) {
+
+  form {
+    flex-direction: column;
+    gap: 20px;
+    padding: 30px 0 0 0;
+  }
+
+}
