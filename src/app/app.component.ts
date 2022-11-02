@@ -1,27 +1,26 @@
-import { Component } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
+import { CurrencyService } from './services/currency.service';
+import { Currency } from './models/currency';
 
 @Component({
   selector: 'app-root',
   template: `
-    <app-header *ngIf="response" [response]="response"></app-header>
+    <app-header *ngIf="currenciesList.length" [currenciesList]="currenciesList"></app-header>
     <main>
-    <app-exchange *ngIf="response" [response]="response"></app-exchange>
+    <app-exchange *ngIf="currenciesList.length" [currenciesList]="currenciesList"></app-exchange>
     </main>
-  `,
-  styles: []
+  `
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
 
-  response: any;
+  public currenciesList: Currency[] = [];
 
-  constructor(private http: HttpClient) {
-  };
+  constructor(private currencyService: CurrencyService) { };
 
-  ngOnInit() {
-    this.http.get('https://api.privatbank.ua/p24api/pubinfo?json&exchange&coursid=5')
+  ngOnInit(): void {
+    this.currencyService.getCurrencies()
       .subscribe(resp => {
-        this.response = resp;
-    });
+        this.currenciesList = resp;
+      });
   };
 };

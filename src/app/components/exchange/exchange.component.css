@@ -63,7 +63,7 @@ input:focus {
   border-radius: 18px;
 }
 
-a {
+button {
   text-align: center;
   cursor: pointer;
   padding: 8px 10px;
@@ -73,11 +73,11 @@ a {
   cursor: pointer;
   color: rgb(255, 255, 255);
   background-color: rgb(33, 150, 243);
+  border: 1px solid rgb(33, 150, 243);
   border-radius: 8px;
 }
 
-a:hover,
-a:focus {
+button:hover {
   background-color: rgb(42, 138, 216);
 }
 

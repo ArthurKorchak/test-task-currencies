@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input} from '@angular/core';
+import { Currency } from 'src/app/models/currency';
 
 @Component({
   selector: 'app-header',
@@ -7,17 +8,17 @@ import { Component, Input, OnInit } from '@angular/core';
       <app-logo></app-logo>
       <div class='currencies-box'>
         <app-currency-stats 
-        [ccy]="response[0].ccy" 
-        [base_ccy]="response[0].base_ccy" 
-        [buy]="response[0].buy" 
-        [sale]="response[0].sale"
+        [ccy]="currenciesList[0].ccy" 
+        [base_ccy]="currenciesList[0].base_ccy" 
+        [buy]="currenciesList[0].buy" 
+        [sale]="currenciesList[0].sale"
         >
         </app-currency-stats>
         <app-currency-stats 
-        [ccy]="response[1].ccy" 
-        [base_ccy]="response[1].base_ccy" 
-        [buy]="response[1].buy" 
-        [sale]="response[1].sale"
+        [ccy]="currenciesList[1].ccy" 
+        [base_ccy]="currenciesList[1].base_ccy" 
+        [buy]="currenciesList[1].buy" 
+        [sale]="currenciesList[1].sale"
         >
         </app-currency-stats>
       </div>
@@ -25,10 +26,7 @@ import { Component, Input, OnInit } from '@angular/core';
   `,
   styleUrls: ['./header.component.css']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent{
 
-  @Input() response: any;
-
-  ngOnInit(): void {
-  };
+  @Input() currenciesList: Currency[] = [];
 };

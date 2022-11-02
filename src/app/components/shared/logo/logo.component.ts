@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-logo',
@@ -9,8 +9,4 @@ import { Component, OnInit } from '@angular/core';
   `,
   styleUrls: ['./logo.component.css']
 })
-export class LogoComponent implements OnInit {
-
-  ngOnInit(): void {
-  };
-};
+export class LogoComponent { };

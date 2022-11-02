@@ -1,21 +1,22 @@
-import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
+import { Currency } from '../../models/currency';
 
 @Component({
   selector: 'app-exchange',
   template: `
-    <form>
+    <form [formGroup]="exchangeForm" (ngSubmit)="onSubmit()">
       <div class="half-of-form">
         <p class="title">From</p>
         <div class="input-wrapper">
-          <select name="firstSelect" [(ngModel)]="firstSelect" (input)="handleSelect($event)">
+          <select name="firstSelect" formControlName="firstSelect">
             <option *ngFor="let item of currencies" [value]="item">{{item}}</option>
           </select>
           <input
             type="number"
             name="firstInput"
             placeholder="0"
-            [(ngModel)]="firstValue"
-            (input)="handleInput($event)"
+            formControlName="firstInput"
           />
         </div>
       </div>
@@ -25,89 +26,126 @@ import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/cor
       <div class="half-of-form">
         <p class="title">To</p>
         <div class="input-wrapper">
-          <select name="secondSelect" [(ngModel)]="secondSelect" (input)="handleSelect($event)">
+          <select name="secondSelect" formControlName="secondSelect">
             <option *ngFor="let item of currencies" [value]="item">{{item}}</option>
           </select>
           <input
             type="number"
             name="secondInput"
             placeholder="0"
-            [(ngModel)]="secondValue"
-            (input)="handleInput($event)"
+            formControlName="secondInput"
           />
         </div>
       </div>
-      <a href="https://privatbank.ua/map" target="_blank" rel="noreferrer">
-        Where to buy
-      </a>
+      <button type="submit">
+        Buy now
+      </button>
     </form>
   `,
   styleUrls: ['./exchange.component.css']
 })
-export class ExchangeComponent implements OnInit {
+export class ExchangeComponent implements OnInit{
 
-  @Input() response: any;
+  @Input() currenciesList: Currency[] = [];
 
-  currencies = ['UAH', 'USD', 'EUR']
-  firstSelect = 'UAH';
-  secondSelect = 'USD';
-  firstValue = NaN;
-  secondValue = NaN;
+  public exchangeForm: FormGroup;
 
-  constructor() { };
+  public currencies = ['UAH', 'USD', 'EUR'];
+  private prevValuesCache = {
+    firstSelect: 'UAH',
+    secondSelect: 'USD'
+  };
+  private isRerenderNeed = true;
 
-  calculateCurrencies(value: number, target: string): void {
-    const firstCurrency = this.response.find((elem: any) => elem.ccy === this.firstSelect);
-    const secondCurrency = this.response.find((elem: any) => elem.ccy === this.secondSelect);
+  constructor() {
+    this.exchangeForm  = new FormGroup({
+      firstSelect: new FormControl(this.prevValuesCache.firstSelect),
+      secondSelect: new FormControl(this.prevValuesCache.secondSelect),
+      firstInput: new FormControl(NaN),
+      secondInput: new FormControl(NaN)
+  });
+  }
+
+  ngOnInit(): void {
+    const firstSelect = this.exchangeForm.controls['firstSelect'];
+    const secondSelect = this.exchangeForm.controls['secondSelect'];
+    const firstInput = this.exchangeForm.controls['firstInput'];
+    const secondInput = this.exchangeForm.controls['secondInput'];
+    
+    firstSelect.valueChanges.subscribe((): void => {
+      this.handleSelect(firstSelect, secondSelect, firstInput, secondInput, 'firstSelect');
+    });
+    secondSelect.valueChanges.subscribe((): void => {
+      this.handleSelect(firstSelect, secondSelect, firstInput, secondInput, 'secondSelect');
+    });
+    firstInput.valueChanges.subscribe((): void => {
+      if (this.isRerenderNeed) {
+        this.isRerenderNeed = false;
+        this.calculateCurrencies(firstInput, secondInput, 'second');
+      } else {
+        this.isRerenderNeed = true;
+      }      
+    });
+    secondInput.valueChanges.subscribe((): void => {
+      if (this.isRerenderNeed) {
+        this.isRerenderNeed = false;
+        this.calculateCurrencies(firstInput, secondInput, 'first');
+      } else {
+        this.isRerenderNeed = true;
+      }
+    });
+  };  
+
+  private handleSelect(firstSelect: AbstractControl, secondSelect: AbstractControl,
+    firstInput: AbstractControl, secondInput: AbstractControl, target: string): void {
+    const firstSelectValue = firstSelect.value;
+    const secondSelectValue = secondSelect.value;
+    
+    this.isRerenderNeed = false;
+    if (target === 'firstSelect') {
+      if (firstSelectValue === secondSelectValue) {
+        secondSelect.setValue(this.prevValuesCache.firstSelect);
+        this.prevValuesCache.secondSelect = this.prevValuesCache.firstSelect;
+        this.prevValuesCache.firstSelect = firstSelectValue;
+        this.calculateCurrencies(firstInput, secondInput, 'second');
+      } else {
+        this.prevValuesCache.firstSelect = firstSelectValue;
+        this.calculateCurrencies(firstInput, secondInput, 'first');
+      };
+    } else if (target === 'secondSelect') {
+      if (firstSelectValue === secondSelectValue) {
+        firstSelect.setValue(this.prevValuesCache.secondSelect);
+        this.prevValuesCache.firstSelect = this.prevValuesCache.secondSelect;
+        this.prevValuesCache.secondSelect = secondSelectValue;
+        this.calculateCurrencies(firstInput, secondInput, 'first');
+      } else {
+        this.prevValuesCache.secondSelect = secondSelectValue;
+        this.calculateCurrencies(firstInput, secondInput, 'second');
+      };
+    };
+  };
+
+  private calculateCurrencies(firstInput: AbstractControl, secondInput: AbstractControl, target: string): void {
+    const firstCurrency = this.currenciesList.find((elem: Currency) => elem.ccy === this.prevValuesCache.firstSelect);
+    const secondCurrency = this.currenciesList.find((elem: Currency) => elem.ccy === this.prevValuesCache.secondSelect);
 
     if (target === 'first') {
+      const value = secondInput.value;
       const crossRange =
-        (secondCurrency?.sale ? secondCurrency.sale : 1) /
-        (firstCurrency?.buy ? firstCurrency.buy : 1);
-      this.firstValue = Math.round(value * crossRange * 100) / 100;
+        +(secondCurrency?.sale ? secondCurrency.sale : 1) /
+        +(firstCurrency?.buy ? firstCurrency.buy : 1);
+      firstInput.setValue(Math.round(value * crossRange * 100) / 100);
     } else if (target === 'second') {
+      const value = firstInput.value;
       const crossRange =
-        (firstCurrency?.buy ? firstCurrency.buy : 1) /
-        (secondCurrency?.sale ? secondCurrency.sale : 1);
-      this.secondValue = Math.round(value * crossRange * 100) / 100;
+        +(firstCurrency?.buy ? firstCurrency.buy : 1) /
+        +(secondCurrency?.sale ? secondCurrency.sale : 1);
+      secondInput.setValue(Math.round(value * crossRange * 100) / 100);
     }
   };
 
-  handleSelect(ev: Event): void {
-    const target = ev.target as HTMLTextAreaElement;
-    if (target.name === 'firstSelect') {
-      if (this.secondSelect === target.value) {
-        const buff = this.firstSelect;
-        this.firstSelect = this.secondSelect;
-        this.secondSelect = buff;
-        this.calculateCurrencies(this.firstValue, 'second');
-      } else {
-        this.firstSelect = target.value;
-        this.calculateCurrencies(this.secondValue, 'first');
-      };
-    } else if (target.name === 'secondSelect') {
-      if (this.firstSelect === target.value) {
-        const buff = this.firstSelect;
-        this.firstSelect = this.secondSelect;
-        this.secondSelect = buff;
-        this.calculateCurrencies(this.secondValue, 'first');
-      } else {
-        this.secondSelect = target.value;
-        this.calculateCurrencies(this.firstValue, 'second');
-      };
-    };
-  };
-
-
-  handleInput(ev: Event): void {
-    const target = ev.target as HTMLTextAreaElement;
-    if (target.name === 'firstInput') {
-      this.calculateCurrencies(this.firstValue, 'second');
-    } else if (target.name === 'secondInput') {
-      this.calculateCurrencies(this.secondValue, 'first');
-    };
-  };
-
-  ngOnInit(): void {
+  public onSubmit(): void {
+    const value = this.exchangeForm.value;
+    alert(`pay: ${value.firstInput ? value.firstInput : '0'} ${value.firstSelect} | get: ${value.secondInput ? value.secondInput : '0'} ${value.secondSelect}`);
   };
 };
