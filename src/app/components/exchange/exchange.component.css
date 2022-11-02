@@ -90,7 +90,7 @@ button:hover {
   padding: 0 0 2px 2px;
 }
 
-@media screen and (max-width: 820px) {
+@media screen and (max-width: 835px) {
 
   form {
     flex-direction: column;
