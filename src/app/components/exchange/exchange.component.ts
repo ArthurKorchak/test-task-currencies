@@ -17,6 +17,7 @@ import { Currency } from '../../models/currency';
             name="firstInput"
             placeholder="0"
             formControlName="firstInput"
+            required
           />
         </div>
       </div>
@@ -34,10 +35,11 @@ import { Currency } from '../../models/currency';
             name="secondInput"
             placeholder="0"
             formControlName="secondInput"
+            required
           />
         </div>
       </div>
-      <button type="submit">
+      <button type="submit" [disabled]="!exchangeForm.valid">
         Buy now
       </button>
     </form>
@@ -61,8 +63,8 @@ export class ExchangeComponent implements OnInit{
     this.exchangeForm  = new FormGroup({
       firstSelect: new FormControl(this.prevValuesCache.firstSelect),
       secondSelect: new FormControl(this.prevValuesCache.secondSelect),
-      firstInput: new FormControl(NaN),
-      secondInput: new FormControl(NaN)
+      firstInput: new FormControl(''),
+      secondInput: new FormControl('')
   });
   }
 

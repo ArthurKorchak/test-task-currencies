@@ -81,6 +81,12 @@ button:hover {
   background-color: rgb(42, 138, 216);
 }
 
+button:disabled {
+  color: rgb(94, 94, 94);
+  background-color: rgb(214, 214, 214);
+  border: 1px solid rgb(102, 102, 102);
+}
+
 .title {
   font-size: 18px;
 }
